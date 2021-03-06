@@ -1,0 +1,44 @@
+{% extends 'crmApp/base.html' %}
+
+{% block title %}Info about {% endblock %}
+
+{% block content %}
+
+    <p>Статус заказа: {{ order_info.alidetailinfo_order_status }}</p>
+    <p>Время создания заказа: {{ order_info.alidetailinfo_gmt_create }}</p>
+    <p>Адрес в Али {{ order_info.alidetailinfo_receipt_address }}</p>
+    <p>Нормализованный адрес: {{ order_info.pochta_full_normalized_address }}</p>
+        <ul>
+            {% for i in order_info.aliordersproductlist_product_name %}
+            <li>{{i}}</li>
+            {% endfor %}
+        </ul>
+    {%  if  order_info.cdekorderresponse_cdekResponse.requests.0.state %}
+        <p>Ответ СДЭК на новую заявку: {{ order_info.cdekorderresponse_cdekResponse.requests.0.state }}</p>
+        <p>Накладная СДЭК создана: {{ order_info.cdekorderstatus_cdekStatus.requests.0.state }}</p>
+        {% if order_info.cdekorderstatus_cdekStatus.requests.0.errors %}
+            <p>Ошибки создания накладной СДЭК: {{ order_info.cdekorderstatus_cdekStatus.requests.0.errors }}</p>
+        {% endif %}
+        <p>Номер накладной СДЭК: {{ order_info.cdekorderstatus_cdekStatus.entity.cdek_number }}</p>
+        <P>ПВЗ доставки: {{ order_info.cdek_pvz.0.location.address }}</P>
+    {% else %}
+        <form action="" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" class="btn btn-primary" value=" Создать СДЭК накладную"/>
+
+    {#           onclick="document.location.href = 'createCdekOrder/'+{{ order_info.order_id}}"#}
+
+        </form>
+    {% endif %}
+<script>
+document.getElementById('id_selectShippingFrom').addEventListener('change', function() {
+      id_selectShippingFrom.querySelectorAll('li').forEach(item=>{
+        const elem=item.querySelector('label input');
+        document.getElementById(`id_${elem.value}`).parentElement.hidden=!elem.checked
+         })
+        });
+id_fromKazan.parentElement.hidden='hidden';
+id_fromChelny.parentElement.hidden='hidden'
+</script>
+{% endblock %}

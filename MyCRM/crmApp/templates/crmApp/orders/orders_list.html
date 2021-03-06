@@ -1,0 +1,40 @@
+{% extends 'crmApp/base.html' %}
+{% load static %}
+{% block title %}List of orders{% endblock %}
+
+{% block content %}
+    <div class="main__title">панель заказов</div>
+    <div class="block-list">
+    {% for item in object_list  %}
+    <a class="block-item" href='{% url "crm:order_info" id=item.order_id %}'>
+        <header class="block-item__header">
+            Номер: <span class="block-item_bold">{{ item.order_id }}</span > - Дата/время: <span class="block-item_bold">
+            {{ item.gmt_create|date:"d.m.Y H:i:s e" }}</span>
+        </header>
+        <div class="block-item__list">
+            Состав: <span class="block-item_bold">{{ item.products_list_names }}</span>
+        </div>
+        <footer class="block-item__data">
+            Статус: <span class="block-item_bold">{{ item.order_status }}</span>
+            Платеж: <span class="block-item_bold">{{ item.fund_status }}</span>
+        </footer>
+    </a>
+    {% endfor %}
+    </div>
+        <div class="paginator">
+            <span class="paginator__page-links">
+                {% if page_obj.has_previous %}
+                    <a href="{%  url 'crm:orders_list' %}?page={{ page_obj.previous_page_number }}">предыдущая</a>
+                {% endif %}
+            </span>
+                <span class="paginator__page-current">
+                    Страница: {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}.
+                </span>
+                <span class="paginator__page-links">
+                {% if page_obj.has_next %}
+                    <a href="{%  url 'crm:orders_list' %}?page={{ page_obj.next_page_number }}">следующая</a>
+                {% endif %}
+                </span>
+
+        </div>
+{% endblock %}

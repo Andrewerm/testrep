@@ -1,0 +1,109 @@
+.container {
+  max-width: 1024px;
+  margin: 0 auto;
+  height: inherit;
+  overflow: hidden;
+}
+
+.main {
+  background-color: beige;
+}
+.main__title {
+  font-size: 20px;
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  padding: 10px;
+}
+
+.navbar {
+  background-color: cornsilk;
+  font-size: 14px;
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  text-align: left;
+}
+.navbar__element {
+  display: inline-block;
+  padding: 10px;
+  margin: 0 5px;
+}
+.navbar__element:hover {
+  background-color: aquamarine;
+  text-decoration: underline;
+  border-radius: 7px;
+}
+.navbar__element_active {
+  background-color: aqua;
+  font-weight: 600;
+  border-radius: 10px;
+}
+.navbar__greeting {
+  padding: 10px;
+  margin: 0 5px;
+  text-decoration: underline;
+  display: inline-block;
+}
+.navbar__greeting_bold {
+  font-weight: bold;
+}
+
+.main__title {
+  text-transform: uppercase;
+  margin: 10px auto;
+  font-weight: bold;
+  text-align: center;
+}
+
+.paginator {
+  font-size: 17px;
+  box-shadow: 0.4em 0.4em 5px rgba(122, 122, 122, 0.5);
+  background-color: cornsilk;
+}
+.paginator__page-current {
+  font-weight: bold;
+}
+.paginator__page-links {
+  text-decoration: underline;
+}
+
+.block-item {
+  border: 1px solid #000;
+  border-radius: 5px;
+  padding: 10px;
+  display: block;
+  margin: 10px 0;
+}
+.block-item:nth-child(odd) {
+  background-color: cornsilk;
+}
+.block-item:nth-child(even) {
+  background-color: azure;
+}
+.block-item:hover {
+  box-shadow: 0.4em 0.4em 5px rgba(122, 122, 122, 0.5);
+  position: relative;
+  top: 2px;
+  left: 2px;
+  cursor: pointer;
+}
+
+.block-item__header {
+  display: block;
+  background: darkcyan;
+  color: white;
+  font-size: 20px;
+}
+
+.block-item_bold {
+  font-weight: bold;
+}
+
+.block-item__data {
+  font-size: 16px;
+}
+
+.footer {
+  height: 20px;
+  text-align: right;
+  background-color: cornsilk;
+}
+
+/*# sourceMappingURL=base.css.map */

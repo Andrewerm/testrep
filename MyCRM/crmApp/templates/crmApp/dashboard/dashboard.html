@@ -1,0 +1,32 @@
+{% extends 'crmApp/base.html' %}
+{% load static %}
+{% block stylecss %}
+    <link rel="stylesheet" href="{% static '/css/dashboard/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="main__title">панель управления</div>
+    <form method="post">
+        {% csrf_token %}
+    <div class="blocks-row">
+        <div class="block">
+            <label class="block__title" for="{{ form.checkBoxOrders.id_for_label }}">{{ form.checkBoxOrders.label }}</label>
+            <div class="block__onoff">{{ form.checkBoxOrders }}</div>
+            <label class="block_setting-label" for="{{ form.depthDaysOrders.id_for_label }}">{{ form.depthDaysOrders.label }}</label>
+            <div class="block__setting">{{ form.depthDaysOrders }}</div>
+        </div>
+        <div class="block">
+            <label class="block__title" for="{{ form.checkBoxProducts.id_for_label }}">{{ form.checkBoxProducts.label }}</label>
+            <div class="block__onoff">{{ form.checkBoxProducts }}</div>
+            <label class="block_setting-label" for="{{ form.depthDaysProducts.id_for_label }}">{{ form.depthDaysProducts.label }}</label>
+            <div class="block__setting">{{ form.depthDaysProducts }}</div>
+        </div>
+        <div class="block">
+            <label class="block__title" for="{{ form.checkBoxGroups.id_for_label }}">{{ form.checkBoxGroups.label }}</label>
+            <div class="block__onoff">{{ form.checkBoxGroups }}</div>
+        </div>
+    </div>
+    <button type="submit" class="blocks-row__button">Импорт из Ali</button>
+    </form>
+
+{% endblock %}

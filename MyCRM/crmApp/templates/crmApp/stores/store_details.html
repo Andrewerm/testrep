@@ -1,0 +1,11 @@
+{% extends 'crmApp/base.html' %}
+
+{% block title %}Details of store's {{ item.catalog_item}} {% endblock %}
+
+{% block content %}
+
+{{ item.catalog_item }}
+{{ item.quantity }}
+{{ item.wholesale_price }}
+{{ item.supplier }}
+{% endblock %}

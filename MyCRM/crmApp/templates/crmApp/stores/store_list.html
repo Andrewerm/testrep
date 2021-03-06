@@ -1,0 +1,15 @@
+{% extends 'crmApp/base.html' %}
+
+{% block title %}Stores{% endblock %}
+
+{% block content %}
+    <ul>
+{% for item in store %}
+    <li><a href={{ item.get_absolute_url }}>{{ item.catalog_item }}</a>
+    {{ item.quantity }}
+    {{ item.wholesale_price }}
+    {{ item.supplier }}
+    </li>
+{% endfor %}
+    </ul>
+{% endblock %}

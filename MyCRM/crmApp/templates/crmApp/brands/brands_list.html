@@ -1,0 +1,9 @@
+{% extends 'crmApp/base.html' %}
+
+{% block title %}List of brands{% endblock %}
+
+{% block content %}
+{% for brand in brands %}
+    <h2><a href={{ brand.get_absolute_url }}>{{ brand.name }}</a> </h2>
+{% endfor %}
+{% endblock %}

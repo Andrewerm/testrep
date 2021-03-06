@@ -1,0 +1,36 @@
+{% extends 'crmApp/base.html' %}
+{% load static %}
+{% block title %}List of products{% endblock %}
+
+{% block content %}
+    <div class="main__title">продукты</div>
+{% for item in productsList %}
+    <a class="block-item"  href=' {% url "crm:product_info" id=item.product_id %}'>
+    <div class="block-item__header">
+       Наименование: <span class="block-item_bold">{{ item.subject }}</span>
+    </div>
+    <div class="block-item__data">
+        ID продукта: <span class="block-item_bold">{{ item.product_id }}</span><br>
+        Цена продукта от: <span class="block-item_bold">{{ item.product_min_price }}</span> до: <span class="block-item_bold">{{ item.product_max_price }}</span>
+    </div>
+    </a>
+{% endfor %}
+
+        <div class="paginator">
+            <span class="paginator__page-links">
+                {% if page_obj.has_previous %}
+                    <a href="{% url 'crm:products_list'%}?page={{ page_obj.previous_page_number }}">предыдущая</a>
+                {% endif %}
+            </span>
+                <span class="paginator__page-current">
+                   Страница: {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}.
+                </span>
+            <span class="paginator__page-links">
+                {% if page_obj.has_next %}
+                    <a href="{% url 'crm:products_list'%}?page={{ page_obj.next_page_number }}">следующая</a>
+                {% endif %}
+            </span>
+        </div>
+
+
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'crmApp/base.html' %}
+
+{% block title %}Catalog of models{% endblock %}
+
+{% block content %}
+    <ul>
+{% for item in catalog_items %}
+{#    <li><a href={{ item.get_absolute_url }}>{{ item.article }}</a>#}
+    <li>{{ item.article }} -{{ item.brand_name }} - {{ item.model_name }} - {{ item.stock }}
+    </li>
+{% endfor %}
+    </ul>
+{% endblock %}

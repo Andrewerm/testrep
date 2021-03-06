@@ -1,0 +1,15 @@
+{% extends 'crmApp/base.html' %}
+
+{% block title %}Log in{% endblock %}
+
+{% block content %}
+<h1>Log in please</h1>
+    <p>If you don't have an account <a href="{% url "crm:new_user" %}">register here</a></p>
+
+<form action="" method="post">
+    {% csrf_token %}
+    {{ form }}
+<button type="submit" class="btn btn-primary">Log in</button>
+</form>
+
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends 'crmApp/base.html' %}
+
+{% block title %}Info about {{ product_info.subject }}{% endblock %}
+
+{% block content %}
+    <ul>
+    <li>{{ product_info.subject }} </li>
+    <li>SPU: {{ product_info.product_id }}</li>
+    <li>{{ product_info.product_min_price }}</li>
+    <li>{{ product_info.product_max_price }}</li>
+    <li>{{ product_info.gmt_modified }}</li>
+    <li>{{ product_info.gmt_create}}</li>
+    <li>Цена: {{ product_detail_info.product_price }}</li>
+    </ul>
+{#    <p>Остаток: {{ product_detail_info.aeop_ae_product_s_k_us.global_aeop_ae_product_sku.0.ipm_sku_stock }}</p>#}
+{#    <p>SKU список: {{ product_detail_info.aeop_ae_product_s_k_us.global_aeop_ae_product_sku.0.ipm_sku_stock }}</p>#}
+    {% for skuitem in skulist%}
+    <li>SKU: {{ skuitem.sku_code }}, Остаток: {{ skuitem.ipm_sku_stock }}, цена: {{ skuitem.sku_price }}, цена со скидкой: {{ skuitem.sku_discount_price }}</li>
+        {% for skuattr in  skuitem.aeop_s_k_u_property_list.global_aeop_sku_property %}
+            {{ skuattr }}
+            {% endfor %}
+    {% endfor %}
+    <p style="border: 1px solid">Подробная инфа {{ product_detail_info }}</p>
+{% endblock %}

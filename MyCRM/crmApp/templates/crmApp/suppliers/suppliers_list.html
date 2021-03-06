@@ -1,0 +1,9 @@
+{% extends 'crmApp/base.html' %}
+
+{% block title %}List of suppliers{% endblock %}
+
+{% block content %}
+{% for item in supp_list %}
+    <h2><a href='{{ item.get_absolute_url }}'>{{ item.name }}</a> </h2>
+{% endfor %}
+{% endblock %}

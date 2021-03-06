@@ -1,0 +1,16 @@
+{% extends 'crmApp/base.html' %}
+
+{% block title %}Delete of brand {{ brand.name }}{% endblock %}
+
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    <p>Are you sure you want to delete "{{ brand }}"?</p>
+    <input type="submit" value="Confirm">
+</form>
+<form action={% url 'crm:brand_list'%}>
+    <input type="submit" value="Cancel">
+</form>
+
+
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'crmApp/base.html' %}
+
+{% block title %}List of products{% endblock %}
+
+{% block content %}
+    <div>
+    <form method="post" enctype="multipart/form-data" action="">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" class="btn btn-primary" value="Загрузить CSV Авангарда">
+    </form>
+{#            <button class="btn btn-primary" onclick="document.location.href='{% url "crm:import_myown" %}'">Загрузка Трейдчас</button>#}
+    </div>
+
+
+
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'crmApp/base.html' %}
+
+{% block title %}Details of brands {{ brand.name }}{% endblock %}
+
+{% block content %}
+    <h1> Бренд {{ brand.name }}</h1>
+    Описание бренда:
+    {{ brand.description }}
+    <a href="{% url 'crm:brand_edit' brand.slug %}" class="btn btn-primary btn-md active" role="button" aria-pressed="true">Редактировать</a>
+    <a href="{% url 'crm:brand_del' brand.slug %}" class="btn btn-md btn-danger active" role="button" aria-pressed="true">Удалить</a>
+{% endblock %}

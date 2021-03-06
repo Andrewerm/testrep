@@ -1,0 +1,17 @@
+{% extends 'crmApp/base.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block title %}User registration{% endblock %}
+
+{% block content %}
+    <h1> Заполните форму регистрации </h1>
+<form action='' method='POST'>
+    {% csrf_token %}
+    {{ form }}
+<button type="submit" class="btn btn-primary"> Регистрировать </button>
+
+
+    </form>
+
+{% endblock %}

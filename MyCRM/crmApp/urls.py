@@ -45,4 +45,5 @@ urlpatterns=[
     path('importtraid/', views.importTradechas, name="import_trade"),
     path('syncinventory/', views.syncInventory, name="syncinventory"),
     path('syncinventoryresponce/<int:jobid>', views.getInventorySyncResults, name="getInventorySyncResults"),
+    path('importavangardproducts/', views.impoRTAvangardProducts, name="avangardproducts"),
 ]

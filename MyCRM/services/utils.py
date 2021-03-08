@@ -1,8 +1,9 @@
-from crmApp.models import AliProducts, Catalog, Stores, Suppliers,Brands, AliFeedOperations, AliFeedOperationsLog
+from crmApp.models import AliProducts, Catalog, Stores, Suppliers,Brands, AliFeedOperations, AliFeedOperationsLog, AvangardProducts
 from crmApp.servicesCRM import serviceAli, check_funcs
 import re, json
 from services.google_services import importMyStockVostok, importMyStockMoskvin, importTradeChas
-from services.avangard import AvangardApi
+from services.avangard import AvangardApi, AvangardImportProducts
+import csv
 from django.db.models import Sum
 
 
@@ -187,3 +188,31 @@ def handle_getsyncInventoryResults(jobid):
     AliFeedOperationsLog.objects.bulk_create(mas)
     pass
 
+
+@check_funcs
+def handle_AvangardProducts():
+    a=AvangardImportProducts()
+    res=a.get_stock()
+    reader_object = csv.DictReader(res, delimiter=";")
+    for i in reader_object:
+        print(i)
+    # fields=('code', 'folder_id', 'name', 'size', 'photo', 'price', 'url', 'folder_alias', 'folder_name', 'attributes')
+    fields=[i.name for i in AvangardProducts._meta.get_fields()]
+    lines =res.split('\n')  # разбиваем на строки
+    titles=lines.pop(0).split(';') #разбиваем на заголовки полей
+    # lines=lines[1:] # убираем заголовки
+
+    for ind,i in enumerate(lines):
+        data = i.split(';')  # строки разбиваем на поля
+        j=0
+
+
+        try:
+            f={titles[index]:value for index,value in enumerate(data)} # делаем словарь из полей
+        except Exception as err:
+            pass
+        fDB=AvangardProducts(f) # делаем экземпляр таблицы
+        lines[ind]=fDB
+    AvangardProducts.objects.bulk_create(lines)
+
+    pass

@@ -8,6 +8,30 @@ LOGIN='andrewerm@yandex.ru'
 PASSWORD='35803440'
 BULK_SLICE=40
 
+class AvangardImportProducts(providerAPI):
+    BASE_URL = 'http://api.avangard-time.ru/products/'
+    def get_token(self):
+        pass
+
+    def get_stock(self):
+        params = {'login': LOGIN, 'password': PASSWORD}
+        url=self.BASE_URL
+        res=self.resp("POST", url, data=params, type='html')
+        err=''
+        i=0
+        while not err and i<3:
+            i+=1
+            try:
+                print('коннект к Авангард .... ')
+                return res.text
+            except Exception as err:
+                    print(err)
+        return ''
+
+
+
+
+
 class AvangardApi(providerAPI):
     BASE_URL='https://avangard-time.ru/'
     AUTORIZATION_URL='profile/'

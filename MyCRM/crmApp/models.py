@@ -240,7 +240,7 @@ class AvangardProducts(models.Model):
     price=MoneyField(max_digits=7,decimal_places=2, default_currency='RUB',verbose_name='Оптовая базовая цена', max_length=8)
     price_old = MoneyField(max_digits=7, decimal_places=2, default_currency='RUB', verbose_name='Старая цена',
                        max_length=8)
-    discount_perc=models.CharField(max_length=6, verbose_name='Скидка')
+    discount_perc=models.DecimalField(max_length=6, verbose_name='Скидка',max_digits=4,decimal_places=2 , default=0)
     url=models.URLField(verbose_name='Адрес товара на сайте Аванграда')
     folder_alias=models.CharField(verbose_name='Иерархия синонимов папки ', max_length=50)
     folder_name=models.CharField(verbose_name='Иерархия имен папки ', max_length=50)

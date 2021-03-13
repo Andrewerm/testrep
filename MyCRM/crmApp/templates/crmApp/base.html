@@ -21,7 +21,7 @@
             <li class="navbar__element {% if active_page == 'dashboard' %}navbar__element_active{% endif %}"><a href="{% url "crm:dashboard" %}">My dashboard</a></li>
             <li class="navbar__element {% if active_page == 'productlist' %}navbar__element_active{% endif %}"><a href="{% url "crm:products_list" %}">Products</a> </li>
             <li class="navbar__element {% if active_page == 'orderlist' %}navbar__element_active{% endif %}"><a href={% url "crm:orders_list" %}>Orders</a></li>
-            <li class="navbar__element {% if active_page == 'importpage' %}navbar__element_active{% endif %}"><a href={% url "crm:import_avangard" %}>Imports</a></li>
+{#            <li class="navbar__element {% if active_page == 'importpage' %}navbar__element_active{% endif %}"><a href={% url "crm:import_avangard" %}>Imports</a></li>#}
             {% if user.is_authenticated %}
                 <li class="navbar__element"><a href="{% url "crm:logout" %}">Logout</a></li>
                 <li class="navbar__greeting"> Hello <span class="navbar__greeting_bold">{{ user.first_name }} ({{ user.username }})</span></li>

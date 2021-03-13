@@ -1,11 +1,11 @@
-from crmApp.models import AliProducts, Catalog, Stores, Suppliers,Brands, AliFeedOperations, AliFeedOperationsLog, AvangardProducts
+from crmApp.models import AliProducts, Catalog, Stores, Suppliers,Brands, AliFeedOperations, AliFeedOperationsLog
 from crmApp.servicesCRM import serviceAli, check_funcs
 import re, json
 from services.google_services import importMyStockVostok, importMyStockMoskvin, importTradeChas
 from services.avangard import AvangardApi, AvangardImportProducts
 import csv
 from io import StringIO
-from django.db.models import Sum
+
 
 
 
@@ -92,25 +92,25 @@ def DkleinParsing(data):
         updatingData(brand=brandGepard, article=article, supplier=supplier, idProduct=data_item[2], avangardsession=s)
     s.cart_cleaning()
 
-def handle_avangard_file(file):
-    BRANDS={'vostok':VostokParsing,
-            'mikhail_moskvin': MoskvinParsing,
-            'gepard_mikhail_moskvin': GepardParsing,
-            'slava':SlavaParsing,
-            'daniel_klein': DkleinParsing
-            }
-    file_data=file.read().decode('utf-8') # получаем содержимое файла
-    file_data=file_data[1:-1] # удаляем первую и последнюю мешающую кавычку
-    lines=file_data.split('"\r\n') # разбиваем на строки
-    data=list(map(lambda x: x[1:].split('";"'), lines)) # строки разбиваем на поля
-    # обнуляем склад Авангард
-    Stores.objects.filter(supplier=Suppliers.objects.get(name='Авангард')).update(quantity=0)
-    # фильтруем нужны бренд
-    for (brand, func) in BRANDS.items():
-        filt=list(filter(lambda x:x[0]==brand, data))
-    # парсингуем и загружаем в базу
-        if len(filt)>0:
-            func(filt)
+# def handle_avangard_file(file):
+#     BRANDS={'vostok':VostokParsing,
+#             'mikhail_moskvin': MoskvinParsing,
+#             'gepard_mikhail_moskvin': GepardParsing,
+#             'slava':SlavaParsing,
+#             'daniel_klein': DkleinParsing
+#             }
+#     file_data=file.read().decode('utf-8') # получаем содержимое файла
+#     file_data=file_data[1:-1] # удаляем первую и последнюю мешающую кавычку
+#     lines=file_data.split('"\r\n') # разбиваем на строки
+#     data=list(map(lambda x: x[1:].split('";"'), lines)) # строки разбиваем на поля
+#     # обнуляем склад Авангард
+#     Stores.objects.filter(supplier=Suppliers.objects.get(name='Авангард')).update(quantity=0)
+#     # фильтруем нужны бренд
+#     for (brand, func) in BRANDS.items():
+#         filt=list(filter(lambda x:x[0]==brand, data))
+#     # парсингуем и загружаем в базу
+#         if len(filt)>0:
+#             func(filt)
 
 
 def handle_myownstore():
@@ -225,7 +225,6 @@ def handle_AvangardProducts():
     # обнуляем склад Авангард
     Stores.objects.filter(supplier=Suppliers.objects.get(name='Авангард')).update(quantity=0)
     # # фильтруем нужны бренд
-    data=[]
     for (brand, func) in BRANDS.items():
         filt=list(filter(lambda x:x[0]==brand, mas))
     # парсингуем и загружаем в базу

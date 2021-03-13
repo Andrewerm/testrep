@@ -11,8 +11,8 @@ from django.contrib.auth.decorators import login_required
 from .servicesCRM import serviceAli, check_funcs, orderAliInfo, DEPARTURE_CITIES
 from django.core.paginator import Paginator
 from services.cdek_services import CdekAPI, CdekOrder
-from services.utils import handle_avangard_file, handle_myownstore, handle_tradechas, handle_syncInventory, handle_getsyncInventoryResults, handle_AvangardProducts
-from services.avangard import AvangardApi
+from services.utils import handle_myownstore, handle_tradechas, handle_syncInventory, handle_getsyncInventoryResults, handle_AvangardProducts
+
 
 
 # # пункты отправления посылок
@@ -313,20 +313,20 @@ def OrderInfoDetail(request, id):
                       template_name='orders/order_info.html')
 
 
-def import_avangard(request):
-    if request.method=="POST":
-        form=UploadFileForm(request.POST, request.FILES)
-        if form.is_valid():
-            handle_avangard_file(request.FILES['file'])
-            print(f'Загружен файл {request.FILES["file"]}')
-            # s = AvangardApi()
-            # s.updating_stocks()
-    else:
-        form=UploadFileForm()
-    # importTradeChas.handled_data()
-    # importMyStock.handled_data()
-    # syncVostokInventory()
-    return render(request, context={'form':form, 'active_page':'importpage'}, template_name='products-list\load-avangard.html')
+# def import_avangard(request):
+#     if request.method=="POST":
+#         form=UploadFileForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             handle_avangard_file(request.FILES['file'])
+#             print(f'Загружен файл {request.FILES["file"]}')
+#             # s = AvangardApi()
+#             # s.updating_stocks()
+#     else:
+#         form=UploadFileForm()
+#     # importTradeChas.handled_data()
+#     # importMyStock.handled_data()
+#     # syncVostokInventory()
+#     return render(request, context={'form':form, 'active_page':'importpage'}, template_name='products-list\load-avangard.html')
 
 def importMyOwn(request):
     handle_myownstore()

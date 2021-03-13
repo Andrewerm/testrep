@@ -231,17 +231,4 @@ class AliFeedOperationsLog(models.Model):
     class Meta:
         unique_together = (('job', 'item_content_id'),)
 
-class AvangardProducts(models.Model):
-    code=models.SmallIntegerField(verbose_name='Уникальный артикул товара', primary_key=True)
-    folder_id=models.SmallIntegerField(verbose_name='ID папки товара')
-    name=models.CharField(verbose_name='Наименование товара', max_length=50)
-    size=models.CharField(verbose_name='Размер часов', max_length=20)
-    photo=models.URLField(verbose_name='Ссылка на фотографию с водным знаком')
-    price=MoneyField(max_digits=7,decimal_places=2, default_currency='RUB',verbose_name='Оптовая базовая цена', max_length=8)
-    price_old = MoneyField(max_digits=7, decimal_places=2, default_currency='RUB', verbose_name='Старая цена',
-                       max_length=8)
-    discount_perc=models.DecimalField(max_length=6, verbose_name='Скидка',max_digits=4,decimal_places=2 , default=0)
-    url=models.URLField(verbose_name='Адрес товара на сайте Аванграда')
-    folder_alias=models.CharField(verbose_name='Иерархия синонимов папки ', max_length=50)
-    folder_name=models.CharField(verbose_name='Иерархия имен папки ', max_length=50)
-    attributes=models.TextField(verbose_name='Свойства товара в html-формате')
+

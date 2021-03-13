@@ -66,12 +66,16 @@ class providerAPI(ABC):
             print(f'Other error occurred: {err}')
             # return {'errorOfResp': True}
         else:
-           if kwargs.get('type')=='html':
-               return response
-           else:
-               try:
-                return response.json()
-               except Exception as err:
+            try:
+                if kwargs.get('type'):
+                    if kwargs['type']=='html' or kwargs['type']=='text':
+                        return response.text
+                    if kwargs['type']=='content':
+                        return response.content
+
+                else:
+                    return response.json()
+            except Exception as err:
                    print(err)
 
 

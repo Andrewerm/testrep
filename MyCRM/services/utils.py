@@ -4,6 +4,7 @@ import re, json
 from services.google_services import importMyStockVostok, importMyStockMoskvin, importTradeChas
 from services.avangard import AvangardApi, AvangardImportProducts
 import csv
+from io import StringIO
 from django.db.models import Sum
 
 
@@ -189,30 +190,45 @@ def handle_getsyncInventoryResults(jobid):
     pass
 
 
+
 @check_funcs
 def handle_AvangardProducts():
+
+    BRANDS={'naruchnie_chasi/vostok':VostokParsing,
+            'naruchnie_chasi/mikhail_moskvin': MoskvinParsing,
+            'naruchnie_chasi/gepard_mikhail_moskvin': GepardParsing,
+            'naruchnie_chasi/slava/slava_kvartsevie':SlavaParsing,
+            'naruchnie_chasi/slava/slava_mekhanicheskie': SlavaParsing,
+            'naruchnie_chasi/daniel_klein': DkleinParsing
+            }
+    # Определяем формат CSV от Авангард
+    class Avangard_dialect(csv.Dialect):
+        delimiter = ';'
+        quotechar = '"'
+        doublequote = True
+        skipinitialspace = False
+        lineterminator = '\n'
+        quoting = csv.QUOTE_ALL
+    adialect=Avangard_dialect()
+    csv.register_dialect('avangard_dialect', adialect)
+    # закончили с определением формата
     a=AvangardImportProducts()
     res=a.get_stock()
-    reader_object = csv.DictReader(res, delimiter=";")
-    for i in reader_object:
-        print(i)
-    # fields=('code', 'folder_id', 'name', 'size', 'photo', 'price', 'url', 'folder_alias', 'folder_name', 'attributes')
-    fields=[i.name for i in AvangardProducts._meta.get_fields()]
-    lines =res.split('\n')  # разбиваем на строки
-    titles=lines.pop(0).split(';') #разбиваем на заголовки полей
-    # lines=lines[1:] # убираем заголовки
+    buff = StringIO(res)
+    reader_object = csv.DictReader(buff, dialect='avangard_dialect')
+    mas=[]
+    item= next(reader_object, None)
+    while item:
+        if item['folder_alias'] in BRANDS.keys():
+            mas.append([item['folder_alias'], item['name'], item['code']])
+        item = next(reader_object, None)
+    # обнуляем склад Авангард
+    Stores.objects.filter(supplier=Suppliers.objects.get(name='Авангард')).update(quantity=0)
+    # # фильтруем нужны бренд
+    data=[]
+    for (brand, func) in BRANDS.items():
+        filt=list(filter(lambda x:x[0]==brand, mas))
+    # парсингуем и загружаем в базу
+        if len(filt)>0:
+            func(filt)
 
-    for ind,i in enumerate(lines):
-        data = i.split(';')  # строки разбиваем на поля
-        j=0
-
-
-        try:
-            f={titles[index]:value for index,value in enumerate(data)} # делаем словарь из полей
-        except Exception as err:
-            pass
-        fDB=AvangardProducts(f) # делаем экземпляр таблицы
-        lines[ind]=fDB
-    AvangardProducts.objects.bulk_create(lines)
-
-    pass

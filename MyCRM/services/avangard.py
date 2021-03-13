@@ -19,12 +19,13 @@ class AvangardImportProducts(providerAPI):
 
         err=''
         i=0
-        while not err and i<3:
+        while not err and i<5:
             i+=1
             try:
-                print('коннект к Авангард .... ')
-                res = self.resp("POST", url, data=params, type='html')
-                return res.text
+                print(f'коннект к Авангард .... {i}' )
+                res = self.resp("POST", url, data=params, type='text')
+                if res:
+                    return res
             except Exception as err:
                     print(err)
         return ''

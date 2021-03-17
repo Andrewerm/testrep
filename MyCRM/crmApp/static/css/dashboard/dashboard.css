@@ -10,6 +10,9 @@
   flex-wrap: wrap;
   justify-content: space-between;
 }
+.blocks-row__block {
+  margin: 10px 10px;
+}
 
 .block {
   border: 1px solid #000;

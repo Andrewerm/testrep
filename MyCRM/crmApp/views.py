@@ -197,7 +197,7 @@ class StoreEdit(UpdateView):
 def dashboard(request):
 
     if request.method=='GET':
-        form=DashBoardForm(initial={'checkBoxOrders':True, 'depthDaysOrders':1, 'checkBoxProducts': False, 'depthDaysProducts':3, 'checkBoxGroups': False})
+        form=DashBoardForm(initial={'checkBoxOrders':True, 'depthDaysOrders':1, 'checkBoxProducts': False, 'depthDaysProducts':3})
 
     else:
         form=DashBoardForm(request.POST)
@@ -209,6 +209,14 @@ def dashboard(request):
                 a.updateProducts(int(form.data['depthDaysProducts']))
             if form.cleaned_data['checkBoxGroups']:
                 a.updateGroupList()
+            if form.cleaned_data['checkBoxMyOwnProducts']:
+                handle_myownstore()
+            if form.cleaned_data['checkBoxAvangardProducts']:
+                handle_AvangardProducts()
+            if form.cleaned_data['checkBoxSendToAli']:
+                    handle_syncInventory()
+
+
     return render(request,'dashboard/dashboard.html', context={'form':form, 'active_page':'dashboard'})
 
 def userNew(request):

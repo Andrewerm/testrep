@@ -9,21 +9,33 @@
     <form method="post">
         {% csrf_token %}
     <div class="blocks-row">
-        <div class="block">
+        <div class="block blocks-row__block">
             <label class="block__title" for="{{ form.checkBoxOrders.id_for_label }}">{{ form.checkBoxOrders.label }}</label>
             <div class="block__onoff">{{ form.checkBoxOrders }}</div>
             <label class="block_setting-label" for="{{ form.depthDaysOrders.id_for_label }}">{{ form.depthDaysOrders.label }}</label>
             <div class="block__setting">{{ form.depthDaysOrders }}</div>
         </div>
-        <div class="block">
+        <div class="block blocks-row__block">
             <label class="block__title" for="{{ form.checkBoxProducts.id_for_label }}">{{ form.checkBoxProducts.label }}</label>
             <div class="block__onoff">{{ form.checkBoxProducts }}</div>
             <label class="block_setting-label" for="{{ form.depthDaysProducts.id_for_label }}">{{ form.depthDaysProducts.label }}</label>
             <div class="block__setting">{{ form.depthDaysProducts }}</div>
         </div>
-        <div class="block">
+        <div class="block blocks-row__block">
             <label class="block__title" for="{{ form.checkBoxGroups.id_for_label }}">{{ form.checkBoxGroups.label }}</label>
             <div class="block__onoff">{{ form.checkBoxGroups }}</div>
+        </div>
+        <div class="block blocks-row__block">
+            <label class="block__title" for="{{ form.checkBoxMyOwnProducts.id_for_label }}">{{ form.checkBoxMyOwnProducts.label }}</label>
+            <div class="block__onoff">{{ form.checkBoxMyOwnProducts }}</div>
+        </div>
+        <div class="block blocks-row__block">
+            <label class="block__title" for="{{ form.checkBoxAvangardProducts.id_for_label }}">{{ form.checkBoxAvangardProducts.label }}</label>
+            <div class="block__onoff">{{ form.checkBoxAvangardProducts }}</div>
+        </div>
+        <div class="block blocks-row__block">
+            <label class="block__title" for="{{ form.checkBoxSendToAli.id_for_label }}">{{ form.checkBoxSendToAli.label }}</label>
+            <div class="block__onoff">{{ form.checkBoxSendToAli }}</div>
         </div>
     </div>
     <button type="submit" class="blocks-row__button">Импорт из Ali</button>

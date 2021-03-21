@@ -41,8 +41,7 @@ class OrderInfoForm(forms.Form):
     choices=list(map(lambda item: (item['id'], item['name']),DEPARTURE_CITIES))
     selectShippingFrom=forms.ChoiceField(label='Город отправки', widget=forms.RadioSelect,
                                          choices=choices, initial=(DEPARTURE_CITIES[0]['id'],DEPARTURE_CITIES[0]['name']))
-    fromSaratov=forms.ChoiceField(label='Тариф СДЭК из Саратова')
-    fromKazan = forms.ChoiceField(label='Тариф СДЭК из Казани')
+    fromKazan = forms.ChoiceField(label='Тариф СДЭК из Чистополя')
     fromChelny = forms.ChoiceField(label='Тариф СДЭК из Н. Челнов')
     insurance=forms.IntegerField(label='Страховка груза (руб.)', required=False)
 
@@ -63,7 +62,7 @@ class DashBoardForm(forms.Form):
     checkBoxMyOwnProducts=forms.BooleanField(label='Импортировать мои товары', required=False)
     checkBoxAvangardProducts = forms.BooleanField(label='Импортировать из Авангарда', required=False)
     checkBoxSendToAli = forms.BooleanField(label='Отправить остатки в Али', required=False)
-
+    checkBoxImportTradeChas = forms.BooleanField(label='Импортировать из Трейдчас', required=False)
 
 # форма для загрузки файлов
 class UploadFileForm(forms.Form):

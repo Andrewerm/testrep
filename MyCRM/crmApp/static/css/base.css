@@ -1,3 +1,10 @@
+.block__title, .main__title {
+  text-transform: uppercase;
+  margin: 10px auto;
+  font-weight: bold;
+  text-align: center;
+}
+
 .container {
   max-width: 1024px;
   margin: 0 auto;
@@ -45,7 +52,7 @@
   font-weight: bold;
 }
 
-.main__title {
+.block__title, .main__title {
   text-transform: uppercase;
   margin: 10px auto;
   font-weight: bold;
@@ -84,18 +91,15 @@
   left: 2px;
   cursor: pointer;
 }
-
 .block-item__header {
   display: block;
   background: darkcyan;
   color: white;
   font-size: 20px;
 }
-
 .block-item_bold {
   font-weight: bold;
 }
-
 .block-item__data {
   font-size: 16px;
 }
@@ -104,6 +108,88 @@
   height: 20px;
   text-align: right;
   background-color: cornsilk;
+}
+
+.blocks-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.blocks-row__block {
+  margin: 10px 10px;
+}
+.blocks-row__button {
+  display: block;
+  margin: 20px auto;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0.4em 0.4em 5px rgba(122, 122, 122, 0.5);
+  background-color: aqua;
+}
+.blocks-row__button:hover {
+  background-color: aquamarine;
+}
+.blocks-row__button:active {
+  position: relative;
+  top: 5px;
+  left: 5px;
+  box-shadow: none;
+}
+
+.block {
+  border: 1px solid #000;
+  border-radius: 5px;
+  background-color: azure;
+  box-shadow: 0.4em 0.4em 5px rgba(122, 122, 122, 0.5);
+  min-width: 250px;
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+.block_bold {
+  font-weight: bold;
+}
+.block__title {
+  font-size: 14px;
+  margin: 3px auto;
+  width: 80%;
+  display: block;
+  text-align: center;
+}
+.block__title:hover {
+  cursor: grab;
+}
+.block__elem {
+  font-size: 12px;
+  display: block;
+  padding: 10px;
+}
+.block__elem input {
+  width: 200px;
+}
+.block__onoff {
+  width: 10px;
+  margin: 5px auto;
+}
+.block__setting-label {
+  display: block;
+  margin: 5px auto;
+  width: 200px;
+}
+.block__setting {
+  width: 30px;
+  margin: 10px auto;
+}
+.block__setting input {
+  width: 30px;
+}
+
+.order-info__block {
+  padding: 10px;
+}
+.order-info__vert-style {
+  flex-wrap: nowrap;
 }
 
 /*# sourceMappingURL=base.css.map */

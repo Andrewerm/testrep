@@ -1,3 +1,9 @@
+%titles{
+  text-transform: uppercase;
+  margin: 10px auto;
+  font-weight: bold;
+  text-align: center;
+}
 
 .container{
   max-width: 1024px;
@@ -103,25 +109,128 @@
     left: 2px;
     cursor: pointer;
   }
-}
 
-.block-item__header{
+  &__header{
   display: block;
   background: darkcyan;
   color: white;
   font-size: 20px;
   //font-weight: bold;
 }
-.block-item_bold{
+  &_bold{
   font-weight: bold;
 }
 
-.block-item__data{
+  &__data{
   font-size: 16px;
 }
+}
+
 
 .footer{
   height: 20px;
   text-align: right;
     background-color: cornsilk;
+}
+
+.blocks-row{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+  //flex-flow: column wrap;
+  &__block{
+    margin: 10px 10px;
+  }
+  &__button{
+  display: block;
+  margin: 20px auto;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0.4em 0.4em 5px rgba(122,122,122,0.5);
+  background-color: aqua;
+  &:hover{
+    background-color: aquamarine;
+  }
+  &:active{
+    position: relative;
+    top: 5px;
+    left: 5px;
+    box-shadow: none;
+  }
+}
+}
+
+.block{
+  border: 1px solid #000;
+  border-radius: 5px;
+  background-color: azure;
+  box-shadow: 0.4em 0.4em 5px rgba(122,122,122,0.5);
+  min-width: 250px;
+  min-height: 120px;
+  display: flex;
+  //align-self: stretch;
+  //flex-flow: column wrap;
+  flex-direction: column;
+  justify-content: space-evenly;
+
+
+  &_bold{
+  font-weight: bold;
+}
+
+  &__title{
+  @extend %titles;
+  font-size: 14px;
+  margin: 3px auto;
+  width: 80%;
+  display:block;
+  text-align: center;
+  &:hover{
+    cursor: grab;
+  }
+}
+  &__elem{
+    font-size: 12px;
+    display:block;
+    padding: 10px;
+    input{
+      width: 200px;
+    }
+
+  }
+
+  &__onoff{
+  width: 10px;
+  margin: 5px auto;
+}
+
+  &__setting-label{
+  display: block;
+  margin: 5px auto;
+  width: 200px;
+  //text-align: center;
+
+}
+
+  &__setting{
+  width: 30px;
+  margin: 10px auto;
+  input{
+    width: 30px;
+  }
+}
+}
+.order-info{
+
+
+  &__block{
+    padding: 10px;
+  }
+
+
+  &__vert-style{
+    //flex-direction: column;
+    flex-wrap: nowrap;
+  }
 }

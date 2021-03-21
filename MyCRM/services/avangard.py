@@ -19,7 +19,7 @@ class AvangardImportProducts(providerAPI):
 
         err=''
         i=0
-        while not err and i<5:
+        while not err and i<10:
             i+=1
             try:
                 print(f'коннект к Авангард .... {i}' )

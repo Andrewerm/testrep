@@ -1,18 +1,52 @@
 {% extends 'crmApp/base.html' %}
 
-{% block title %}Info about {% endblock %}
+{% block title %}Заказ {{ order_info.order_id }}{% endblock %}
 
 {% block content %}
+    <div class="order-info">
+        <div class="order-info__title">
+            Заказ: {{ order_info.order_id }}
+        </div>
+        <div class="blocks-row order-info__vert-style">
+            <div class="block order-info__block">
+                <div class="block__title">
+                    Данные заказа неизменяемые
+                </div>
+                <div class="block__elem">
+                 <span class="block_bold">Статус заказа:</span> {{ order_info.alidetailinfo_order_status }}
+                </div>
+                <div class="block__elem">
+                    <span class="block_bold">Время создания заказа:</span> {{ order_info.alidetailinfo_gmt_create }}
+                </div>
+                <div class="block__elem">
+                 <span class="block_bold">Адрес в Али:</span> {{ order_info.alidetailinfo_receipt_address }}
+                </div>
+                <div class="block__elem">
+                 <span class="block_bold">Нормализованный адрес:</span> {{ order_info.pochta_full_normalized_address }}
+                </div>
+                <div class="block__elem"> <span class="block_bold">Товары:</span>
+                    <ol>
+                        {% for i in order_info.aliordersproductlist_product_name %}
+                        <li>{{i}}</li>
+                        {% endfor %}
+                    </ol>
+                </div>
+            </div>
+            <div class="block order-info__block">
+                <form class="block__title" action="" method="post">
+                    Данные заказа изменяемые
+                </form>
+                <div class="block__elem">
+                 <span class="block_bold">ФИО:</span> {{ form.recieverFIO }}
+                </div>
+            </div>
 
-    <p>Статус заказа: {{ order_info.alidetailinfo_order_status }}</p>
-    <p>Время создания заказа: {{ order_info.alidetailinfo_gmt_create }}</p>
-    <p>Адрес в Али {{ order_info.alidetailinfo_receipt_address }}</p>
-    <p>Нормализованный адрес: {{ order_info.pochta_full_normalized_address }}</p>
-        <ul>
-            {% for i in order_info.aliordersproductlist_product_name %}
-            <li>{{i}}</li>
-            {% endfor %}
-        </ul>
+    </div>
+
+    <p></p>
+    <p></p>
+    <p></p>
+
     {%  if  order_info.cdekorderresponse_cdekResponse.requests.0.state %}
         <p>Ответ СДЭК на новую заявку: {{ order_info.cdekorderresponse_cdekResponse.requests.0.state }}</p>
         <p>Накладная СДЭК создана: {{ order_info.cdekorderstatus_cdekStatus.requests.0.state }}</p>
@@ -38,7 +72,6 @@ document.getElementById('id_selectShippingFrom').addEventListener('change', func
         document.getElementById(`id_${elem.value}`).parentElement.hidden=!elem.checked
          })
         });
-id_fromKazan.parentElement.hidden='hidden';
 id_fromChelny.parentElement.hidden='hidden'
 </script>
 {% endblock %}

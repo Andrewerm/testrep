@@ -145,8 +145,8 @@ def handle_tradechas():
     supplier = Suppliers.objects.get(name='Трейдчас')
     Stores.objects.filter(supplier=supplier).update(quantity=0)
     for data_item in dataVostok:
-        updatingData(brand=Brands.objects.get(name=data_item[0]) , article=data_item[1], model_name=data_item[1][:-1],
-                     supplier=supplier, quantityprice=(data_item[2],0))
+         updatingData(brand=Brands.objects.get(name=data_item[0]) , article=data_item[1], model_name=data_item[1][:-1],
+                      supplier=supplier, quantityprice=(data_item[2],0))
 
 
 

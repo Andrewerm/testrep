@@ -20,4 +20,5 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('crm/', include('crmApp.urls', namespace='crm')),
+    path('api/', include('api.urls', namespace='restapi')),
 ]

@@ -37,6 +37,8 @@ class UserRegForm(UserCreationForm):
 
 class OrderInfoForm(forms.Form):
     recieverFIO=forms.CharField(label='ФИО получателя', max_length=50)
+    recieverPhone=forms.CharField(label='Номер телефона', max_length=11)
+    phoneCountry=forms.CharField(label='Код страны', max_length=5)
     selectPVZ=forms.ChoiceField(label='ПВЗ СДЭК получателя')
     choices=list(map(lambda item: (item['id'], item['name']),DEPARTURE_CITIES))
     selectShippingFrom=forms.ChoiceField(label='Город отправки', widget=forms.RadioSelect,

@@ -84,7 +84,7 @@ class importMyStockVostok(Import_from_google_sheets):
 
 class importMyStockMoskvin(Import_from_google_sheets):
     SAMPLE_SPREADSHEET_ID = '16Nkq7PLHNfif6mZEZDOoNkB68jjyOR-3Ca_rlM7OxAI'
-    SAMPLE_RANGE_NAME = 'МоиМосквин!B2:E30'
+    SAMPLE_RANGE_NAME = 'МоиМосквин!B2:G30'
 
     @classmethod
     def handled_data(cls):

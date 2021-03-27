@@ -135,7 +135,7 @@ def handle_myownstore():
         else:
             raise Exception
         updatingData(brand=brand , article=data_item[1],
-                     supplier=supplier, quantityprice=(data_item[2], data_item[3]))
+                     supplier=supplier, quantityprice=(data_item[5], data_item[3]))
 
 
 def handle_tradechas():

@@ -16,7 +16,7 @@
                  <span class="block_bold">Статус заказа:</span> {{ order_info.alidetailinfo_order_status }}
                 </div>
                 <div class="block__elem">
-                    <span class="block_bold">Время создания заказа:</span> {{ order_info.alidetailinfo_gmt_create }}
+                    <span class="block_bold">Время создания заказа:</span> {{ order_info.alidetailinfo_gmt_create|date:"d M Y H:i" }}
                 </div>
                 <div class="block__elem">
                  <span class="block_bold">Адрес в Али:</span> {{ order_info.alidetailinfo_receipt_address }}
@@ -32,46 +32,57 @@
                     </ol>
                 </div>
             </div>
-            <div class="block order-info__block">
-                <form class="block__title" action="" method="post">
+            <form class="block order-info__block"  action="" method="post">
+                {% csrf_token %}
+                <div class="block__title">
                     Данные заказа изменяемые
-                </form>
-                <div class="block__elem">
-                 <span class="block_bold">ФИО:</span> {{ form.recieverFIO }}
                 </div>
-            </div>
+                <div class="block__elem">
+                 <span class="block_bold">{{ form.recieverFIO.label }}:</span> {{ form.recieverFIO }}
+                </div>
+                <div class="block__elem">
+                 <span class="block_bold">{{ form.phoneCountry.label }}</span> {{ form.phoneCountry }}
+                </div>
+                <div class="block__elem">
+                 <span class="block_bold">{{ form.recieverPhone.label }}</span> {{ form.recieverPhone }}
+                </div>
+            {%  if  order_info.cdekorderresponse_cdekResponse.requests.0.state %}
+                <div class="block__elem">
+                    <span class="block_bold">Ответ СДЭК на новую заявку:</span> {{ order_info.cdekorderresponse_cdekResponse.requests.0.state }}
+                </div>
+                <div class="block__elem">
+                    <span class="block_bold">Накладная СДЭК создана:</span> {{ order_info.cdekorderstatus_cdekStatus.requests.0.state }}
+                </div>
+                {% if order_info.cdekorderstatus_cdekStatus.requests.0.errors %}
+                    <div class="block__elem">
+                        <span class="block_bold">Ошибки создания накладной СДЭК:</span> {{ order_info.cdekorderstatus_cdekStatus.requests.0.errors }}
+                    </div>
+                {% endif %}
+                <div class="block__elem">
+                    <span class="block_bold">Номер накладной СДЭК:</span> {{ order_info.cdekorderstatus_cdekStatus.entity.cdek_number }}
+                </div>
+                <div class="block__elem">
+                    <span class="block_bold">ПВЗ доставки:</span> {{ order_info.cdek_pvz.0.location.address }}
+                </div>
+            {% else %}
+                <div class="block__radiobutton">
+                    <span class="block_bold">Город отправки:</span> {{ form.selectShippingFrom }}
+                </div>
+                <div class="block__elem">
+                    <span class="block_bold">Тариф:</span>
+                        {{ form.fromKazan }}
+                        {{ form.fromChelny }}
+                </div>
+                <div class="block__elem">
+                    <span class="block_bold">{{ form.selectPVZ.label }}</span> {{ form.selectPVZ }}
+                </div>
+                <div class="block__elem">
+                    <span class="block_bold">{{ form.insurance.label }}</span> {{ form.insurance }}
+                </div>
+                <input type="submit" value=" Создать СДЭК накладную"/>
 
+            {% endif %}
+            </form>
+        </div>
     </div>
-
-    <p></p>
-    <p></p>
-    <p></p>
-
-    {%  if  order_info.cdekorderresponse_cdekResponse.requests.0.state %}
-        <p>Ответ СДЭК на новую заявку: {{ order_info.cdekorderresponse_cdekResponse.requests.0.state }}</p>
-        <p>Накладная СДЭК создана: {{ order_info.cdekorderstatus_cdekStatus.requests.0.state }}</p>
-        {% if order_info.cdekorderstatus_cdekStatus.requests.0.errors %}
-            <p>Ошибки создания накладной СДЭК: {{ order_info.cdekorderstatus_cdekStatus.requests.0.errors }}</p>
-        {% endif %}
-        <p>Номер накладной СДЭК: {{ order_info.cdekorderstatus_cdekStatus.entity.cdek_number }}</p>
-        <P>ПВЗ доставки: {{ order_info.cdek_pvz.0.location.address }}</P>
-    {% else %}
-        <form action="" method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" class="btn btn-primary" value=" Создать СДЭК накладную"/>
-
-    {#           onclick="document.location.href = 'createCdekOrder/'+{{ order_info.order_id}}"#}
-
-        </form>
-    {% endif %}
-<script>
-document.getElementById('id_selectShippingFrom').addEventListener('change', function() {
-      id_selectShippingFrom.querySelectorAll('li').forEach(item=>{
-        const elem=item.querySelector('label input');
-        document.getElementById(`id_${elem.value}`).parentElement.hidden=!elem.checked
-         })
-        });
-id_fromChelny.parentElement.hidden='hidden'
-</script>
 {% endblock %}

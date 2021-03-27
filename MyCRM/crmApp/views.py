@@ -283,10 +283,15 @@ def OrderInfoDetail(request, id):
     orderDetailInfo=orderAliInfo(id)
     # print(orderDetailInfo.aliordersproductlist_product_name)
     if request.method=='GET':
+        initialForm={'recieverFIO':orderDetailInfo.alidetailinfo_receipt_address['contact_person'],
+                                  'insurance':'0',
+                                 'recieverPhone': orderDetailInfo.alidetailinfo_receipt_address['mobile_no'],
+                                 'phoneCountry': orderDetailInfo.alidetailinfo_receipt_address['phone_country']}
         if orderDetailInfo.cdek_isPVZ==1: # если есть ПВЗ, то у нас форма с ПВЗ
-            form = OrderInfoForm(initial={'recieverFIO':orderDetailInfo.alidetailinfo_receipt_address['contact_person'], 'insurance':0})
+            form = OrderInfoForm(initial=initialForm
+                                 )
         else: # иначе спецаильная форма без ПВЗ
-            form = OrderInfoFormNonPVZ(initial={'recieverFIO': orderDetailInfo.alidetailinfo_receipt_address['contact_person'], 'insurance': 0})
+            form = OrderInfoFormNonPVZ(initial=initialForm)
         list_of_choises()
         return render(request, context={'order_info': orderDetailInfo, 'form': form},
                       template_name='orders/order_info.html')
@@ -295,12 +300,12 @@ def OrderInfoDetail(request, id):
             # если есть ПВЗ, то у нас форма с ПВЗ, иначе специальная форма без ПВЗ
         form=OrderInfoForm(request.POST) if _isPVZ else OrderInfoFormNonPVZ(request.POST)
         list_of_choises()
-        if form.is_valid:
+        if form.is_valid():
             # создаём набор данных для накладной СДЭК
             d = dict()
-            selectedShippingFrom=form.data['selectShippingFrom']
-            d['tariff_code'] =form.data[selectedShippingFrom]
-            d['name'] = form.data['recieverFIO']
+            selectedShippingFrom=form.cleaned_data['selectShippingFrom']
+            d['tariff_code'] =form.cleaned_data[selectedShippingFrom]
+            d['name'] = form.cleaned_data['recieverFIO']
             if _isPVZ:
                 d['delivery_point'] =form.data['selectPVZ'] # если есть ПВЗ, то заполняется ПВЗ
             else: # если нет, то заполняется адрес, оба сразу нельзя.
@@ -309,8 +314,9 @@ def OrderInfoDetail(request, id):
                                         ','+orderDetailInfo.pochta_normalized_address.get('house','')+
                                         ','+orderDetailInfo.pochta_normalized_address.get('room',''),
                                   'postal_code':orderDetailInfo.pochta_normalized_address['index']}
-            d['phone'] = orderDetailInfo.alidetailinfo_receipt_address['phone_country']+orderDetailInfo.alidetailinfo_receipt_address['mobile_no']
-            d['packages'] = orderDetailInfo.product_list_for_cdek(form.data['insurance'])
+            # d['phone'] = orderDetailInfo.alidetailinfo_receipt_address['phone_country']+orderDetailInfo.alidetailinfo_receipt_address['mobile_no']
+            d['phone']=form.cleaned_data['phoneCountry']+form.cleaned_data['recieverPhone']
+            d['packages'] = orderDetailInfo.product_list_for_cdek(form.cleaned_data['insurance'])
             d['number'] = orderDetailInfo.order_id
             # подбираем ПВЗ по выбранному городу отправки
             d['shipment_point']=next((x['PVZ'] for x in DEPARTURE_CITIES if x['id']==selectedShippingFrom), None)
@@ -319,6 +325,9 @@ def OrderInfoDetail(request, id):
             result = cdek.new_order(newO)
             orderDetailInfo.cdek_response_save(result)
             print(result)
+            return render(request, context={'order_info': orderDetailInfo, 'form': form},
+                      template_name='orders/order_info.html')
+        else:
             return render(request, context={'order_info': orderDetailInfo, 'form': form},
                       template_name='orders/order_info.html')
 

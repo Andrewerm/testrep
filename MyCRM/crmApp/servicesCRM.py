@@ -242,7 +242,7 @@ class orderAliInfo():
             else:
                 return getattr(res, attr)
 
-    def product_list_for_cdek(self, insurance):
+    def product_list_for_cdek(self, insurance='0'):
         products=self.__aliordersproductlist__()
         weight=int(100/products.count())
         cost=int(int(insurance)/products.count())

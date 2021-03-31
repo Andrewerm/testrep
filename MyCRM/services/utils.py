@@ -88,7 +88,7 @@ def DkleinParsing(data):
     supplier = Suppliers.objects.get(name='Авангард')
     for data_item in data:
         parts = data_item[1].split(' ')
-        article = parts[-1]
+        article = parts[2]
         updatingData(brand=brandGepard, article=article, supplier=supplier, idProduct=data_item[2], avangardsession=s)
     s.cart_cleaning()
 

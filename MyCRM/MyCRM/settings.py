@@ -16,7 +16,6 @@ from django.urls import reverse_lazy
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
@@ -27,7 +26,6 @@ SECRET_KEY = 'klo)6k$y^+na4l2ltb2(9wl%(w*@txz9liv4=j0llz7!@1pp5b'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -41,12 +39,13 @@ INSTALLED_APPS = [
     'crmApp',
     'djmoney',
     'rest_framework',
+    'django_celery_results',
 ]
 
 REST_FRAMEWORK = {
-'DEFAULT_PERMISSION_CLASSES': [
-'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-]
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
 }
 
 MIDDLEWARE = [
@@ -64,7 +63,7 @@ ROOT_URLCONF = 'MyCRM.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates'),os.path.join(BASE_DIR, 'crmApp/templates/crmApp')]
+        'DIRS': [os.path.join(BASE_DIR, 'templates'), os.path.join(BASE_DIR, 'crmApp/templates/crmApp')]
         ,
         'APP_DIRS': True,
         'OPTIONS': {
@@ -80,7 +79,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'MyCRM.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
@@ -90,7 +88,6 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -110,7 +107,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
@@ -124,13 +120,16 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-STATIC_URL = '/static/' # префикс, добавляемый к интернет-адресу статического файла.
-STATIC_ROOT = '/static/' # путь к основной папке, где хранятся статические файлы. Туда же собирает collectstatic
-STATICFILES_DIRS=[] # путь к доп. папкам, где хранятся стат. файлы
-LOGIN_URL=reverse_lazy('crm:login')
-LOGIN_REDIRECT_URL=reverse_lazy('crm:dashboard')
+STATIC_URL = '/static/'  # префикс, добавляемый к интернет-адресу статического файла.
+STATIC_ROOT = '/static/'  # путь к основной папке, где хранятся статические файлы. Туда же собирает collectstatic
+STATICFILES_DIRS = []  # путь к доп. папкам, где хранятся стат. файлы
+LOGIN_URL = reverse_lazy('crm:login')
+LOGIN_REDIRECT_URL = reverse_lazy('crm:dashboard')
 LOGOUT_URL = reverse_lazy('crm:logout')
+
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_BROKER_URL = 'pyamqp://guest@localhost//'
+# CELERY_BROKER_URL = os.environ.get("CELERY_BROKER", "pyamqp://guest@localhost//")

@@ -39,11 +39,15 @@ def VostokParsing(data): # парсинг файла
     s=AvangardApi()
     supplier = Suppliers.objects.get(name='Авангард')
     for data_item in data:
-        article=re.search('\d{6}', data_item[1])[0]
+        # if data_item[2]=='00000143274':
+        print('data_item',data_item[1])
+        article=re.search('\d{5}[Б|А|\d{1}]', data_item[1])[0]
         if re.search('ремень', data_item[1]):
             article+='r'
         elif re.search('браслет', data_item[1]):
             article+='b'
+        else:
+            article+='r'
         try:
             updatingData(brand=brandVostok, article=article, model_name=article[:-1],
                          supplier=supplier, idProduct=data_item[2],avangardsession=s)
@@ -97,7 +101,7 @@ def DkleinParsing(data):
 #             'mikhail_moskvin': MoskvinParsing,
 #             'gepard_mikhail_moskvin': GepardParsing,
 #             'slava':SlavaParsing,
-#             'daniel_klein': DkleinParsing
+#             # 'daniel_klein': DkleinParsing
 #             }
 #     file_data=file.read().decode('utf-8') # получаем содержимое файла
 #     file_data=file_data[1:-1] # удаляем первую и последнюю мешающую кавычку
@@ -153,7 +157,7 @@ def handle_tradechas():
 
 @check_funcs
 def handle_syncInventory():
-    listing=AliProducts.objects.all() #[476:478] # пробег по всем продуктам Aliexpress
+    listing=AliProducts.objects.all()[401:600] # пробег по всем продуктам Aliexpress
     print(f'начинаем синхронизацию остатков с Али кол-во: {listing.count()}')
     requemas=[]
     for counter, spu  in enumerate(listing):
@@ -161,7 +165,10 @@ def handle_syncInventory():
         for sku in spu.product.all():
             ind = next((i for i,x in enumerate(sku.SKU) if x=='r' or x=='b'), None) # пытаемся найти "r" или "b" в SKU
             model=sku.model+sku.SKU[ind] if ind else sku.model # прибавляем к модели "r" или "b"
-            searchingModel=Catalog.objects.filter(article=model) if ind else Catalog.objects.filter(model_name=model)
+            if (((len(model)==6 and not ind) or (len(model)==7 and ind)) and (model.startswith('43') or model.startswith('81'))):
+                searchingModel= Catalog.objects.filter(model_name__iendswith=model[-4:]).exclude(model_name__istartswith='21').exclude(model_name__istartswith='92')
+            else:
+                searchingModel=Catalog.objects.filter(article=model) if ind else Catalog.objects.filter(model_name=model)
             stock=sum([x.stock() for x in searchingModel],0)
             if stock:
                 print(f'{counter+1} нашли {searchingModel.first().brand_name.name} {model} кол-во: {stock}')
@@ -199,7 +206,7 @@ def handle_AvangardProducts():
             'naruchnie_chasi/gepard_mikhail_moskvin': GepardParsing,
             'naruchnie_chasi/slava/slava_kvartsevie':SlavaParsing,
             'naruchnie_chasi/slava/slava_mekhanicheskie': SlavaParsing,
-            'naruchnie_chasi/daniel_klein': DkleinParsing
+            # 'naruchnie_chasi/daniel_klein': DkleinParsing
             }
     # Определяем формат CSV от Авангард
     class Avangard_dialect(csv.Dialect):
@@ -227,7 +234,7 @@ def handle_AvangardProducts():
     # # фильтруем нужны бренд
     for (brand, func) in BRANDS.items():
         filt=list(filter(lambda x:x[0]==brand, mas))
-    # парсингуем и загружаем в базу
+    # # парсингуем и загружаем в базу
         if len(filt)>0:
             func(filt)
 

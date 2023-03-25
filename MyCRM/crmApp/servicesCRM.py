@@ -12,8 +12,8 @@ import re
 
 # ключи Али
 appAliKey='31102380'
-Alisecret='ea36c75363323184e6779cff827368d4'
-AlisSessionKey='50000000b46gvlSAoYNrD9bGtGosBVRl9gEyhqRvenhMpaltVZEzoLTORH13ec5298w'
+Alisecret='0e7a631451d030c8e29bdef722f16878'
+AlisSessionKey='50000001a21kuEcpd9CcTeNStGmgvKYmT14570481xnlaEOqcRsyyQuyYUQew7Khqjv'
 
 # сдэк
 Account='0372b3fff5d6707cd1633469403952df'
@@ -293,6 +293,7 @@ class serviceAli():
             j+=1
             print(j, ' ' , i)
             i = aliStrToDate(i,('gmt_create','gmt_modified'),'+0800')
+
             item=AliProducts.objects.update_or_create(product_id=i['product_id'], defaults=i)[0]
             # добавляем SKU
             productInfo = self.getProduct(i['product_id'])  # получаем инфу из API Али
@@ -302,8 +303,8 @@ class serviceAli():
                 # получаем все аттрибуты карточки модели
                 attrs=productInfo['aeop_ae_product_propertys']['global_aeop_ae_product_property']
                 # ищем в аттрибутах бренд и модель и русское наименование
-                brand=next(x for x in attrs if x['attr_name_id']==2)['attr_value']
-                model=next(x for x in attrs if x['attr_name_id']==3)['attr_value']
+                brand=next(x for x in attrs if x['attr_name']=='Brand Name')['attr_value']
+                model=next(x for x in attrs if x['attr_name']=='Model Number')['attr_value']
                 subjectlist=productInfo['multi_language_subject_list']['global_subject']
                 subject=next(x for x in subjectlist if x['locale']=='ru_RU')['subject']
                 for sku in skulist:

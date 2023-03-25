@@ -12,6 +12,8 @@ from .servicesCRM import serviceAli, check_funcs, orderAliInfo, DEPARTURE_CITIES
 from django.core.paginator import Paginator
 from services.cdek_services import CdekAPI, CdekOrder
 from services.utils import handle_myownstore, handle_tradechas, handle_syncInventory, handle_getsyncInventoryResults, handle_AvangardProducts
+from crmApp.tasks import saveToFile
+from crmApp.tasks import task_handle_avangardstore, task_handle_myownstore
 
 
 
@@ -365,4 +367,12 @@ def getInventorySyncResults(request, jobid):
 
 def impoRTAvangardProducts(request):
     handle_AvangardProducts()
+    return HttpResponse('готово')
+
+def celeryTest(request):
+    saveToFile.delay('3 test celery')
+    return HttpResponse('готово')
+
+def celery_handle_avangardstore(request):
+    task_handle_avangardstore.delay()
     return HttpResponse('готово')

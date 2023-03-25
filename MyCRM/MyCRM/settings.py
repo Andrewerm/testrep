@@ -130,6 +130,15 @@ LOGIN_URL = reverse_lazy('crm:login')
 LOGIN_REDIRECT_URL = reverse_lazy('crm:dashboard')
 LOGOUT_URL = reverse_lazy('crm:logout')
 
-CELERY_RESULT_BACKEND = 'django-db'
-CELERY_BROKER_URL = 'pyamqp://guest@localhost//'
+# CELERY_RESULT_BACKEND = 'django-db'
+# CELERY_BROKER_URL = 'pyamqp://guest@localhost//'
 # CELERY_BROKER_URL = os.environ.get("CELERY_BROKER", "pyamqp://guest@localhost//")
+
+CELERY_BROKER_URL = "redis://localhost:6379/0"
+CELERY_RESULT_BACKEND = "redis://localhost:6379/0"
+
+# CELERY_BROKER_URL = "redis://mycrm_redis:6380/0"
+# CELERY_RESULT_BACKEND = "redis://mycrm_redis:6380/0"
+
+# CELERY_BROKER_URL = 'amqp://guest@localhost:5672/myvhost'
+# CELERY_RESULT_BACKEND = "redis://localhost:6379/0"

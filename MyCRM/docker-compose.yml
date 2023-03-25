@@ -1,0 +1,33 @@
+version: '3.7'
+services:
+
+  web:
+    build: .
+    command: python /usr/src/MyCRM/manage.py runserver 0.0.0.0:8000
+    ports:
+    - 8000:8000
+    environment:
+      - CELERY_BROKER=redis://redis:6379/0
+      - CELERY_BACKEND=redis://redis:6379/0
+    volumes:
+      - .:/usr/src/MyCRM/
+    depends_on:
+      - redis
+
+
+  celery:
+    image: celery:latest
+    command: celery worker --app=MyCRM --loglevel=info
+    environment:
+      - CELERY_BROKER=redis://redis:6379/0
+      - CELERY_BACKEND=redis://redis:6379/0
+    volumes:
+      - .:/usr/src/MyCRM
+    depends_on:
+      - web
+      - redis
+
+
+  redis:
+    image: redis:latest
+

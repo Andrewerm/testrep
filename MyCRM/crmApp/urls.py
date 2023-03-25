@@ -46,4 +46,5 @@ urlpatterns=[
     path('syncinventory/', views.syncInventory, name="syncinventory"),
     path('syncinventoryresponce/<int:jobid>', views.getInventorySyncResults, name="getInventorySyncResults"),
     path('importavangardproducts/', views.impoRTAvangardProducts, name="avangardproducts"),
+    path('celeryimportavangardproducts/', views.celery_handle_avangardstore, name="avangardproducts"),
 ]

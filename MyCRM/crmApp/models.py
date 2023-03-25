@@ -88,7 +88,7 @@ class AliProducts(models.Model):
     group_id=models.IntegerField(verbose_name='Search field by product groups. Enter product group id (groupId)')
     gmt_modified=models.DateTimeField(verbose_name='time that product was modifed')
     gmt_create=models.DateTimeField(verbose_name='time that product was created')
-    freight_template_id=models.PositiveIntegerField(verbose_name='freight template id')
+    freight_template_id=models.IntegerField(verbose_name='freight template id')
     currency_code=models.CharField(verbose_name='currency code', max_length=3)
     coupon_start_date=models.DateTimeField(verbose_name='Coupon start date, GMT+8', null=True)
     coupon_end_date = models.DateTimeField(verbose_name='Coupon end date, GMT+8', null=True)

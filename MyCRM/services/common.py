@@ -54,7 +54,7 @@ class providerAPI(ABC):
             if method.upper()=='GET':
                 response = self.session.get(url, timeout=30, params=kwargs.get('params'))
             elif method.upper()=='POST':
-                response = self.session.post(url, timeout=30, data=kwargs.get('data'))
+                response = self.session.post(url, timeout=40, data=kwargs.get('data'))
             else:
                 return None
             print('url: '+url)

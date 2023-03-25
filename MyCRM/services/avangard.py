@@ -5,7 +5,7 @@ from datetime import datetime, timezone
 import random
 import pickle
 LOGIN='andrewerm@yandex.ru'
-PASSWORD='35803440'
+PASSWORD='97523690'
 BULK_SLICE=40
 
 class AvangardImportProducts(providerAPI):
